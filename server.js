@@ -1,7 +1,7 @@
 /*
  * NotyFire v2.0
  * Copyright 2012 FriendCo.de
- * 
+ *
  * Example
  */
 

@@ -10,7 +10,7 @@ var socketio = require('socket.io')
 
 exports.channels = {};
 
-exports.listen = function(server){
+exports.listen = function(server) {
     // Channels
     exports.channels = {};
 
@@ -23,29 +23,31 @@ exports.listen = function(server){
         }
         catch (SyntaxError){return false;}
         
-        for (var channel in message){
-            exports.transmit(channel,message[channel])
+        for (var channel in message) {
+            exports.transmit(channel,message[channel]);
         }
     });
 
     // Init socket.io
-    exports.io = socketio.listen(server);
+    exports.io = socketio.listen(server, {
+        resource: '/backends/notyfire'
+    });
     exports.io.sockets.on('error', function (reason){
         console.error('Unable to connect Socket.IO', reason);
     });
 
     exports.io.sockets.on('connection', function (socket) {
-        socket.on('subscribe', function (channel){
+        socket.on('subscribe', function (channel) {
             exports.subscribe(channel,socket);
         });
-        socket.on('unsubscribe', function (chnnale){
+        socket.on('unsubscribe', function (chnnale) {
             exports.unsubscribe(channel,socket);
         });
         socket.on('disconnect', function () {
             
         });
     });
-}
+};
 
 /* Subscribe a socket to a channel */
 exports.subscribe = function(channel,socket){
@@ -61,4 +63,4 @@ exports.unsubscribe = function(channel,socket){
 /* Transmit data in channel */
 exports.transmit = function(channel,message){
     exports.io.sockets.json.in(channel).emit(channel,message);
-}
+};
