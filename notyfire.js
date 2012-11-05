@@ -40,7 +40,7 @@ exports.listen = function(server) {
         socket.on('subscribe', function (channel) {
             exports.subscribe(channel,socket);
         });
-        socket.on('unsubscribe', function (chnnale) {
+        socket.on('unsubscribe', function (channel) {
             exports.unsubscribe(channel,socket);
         });
         socket.on('disconnect', function () {
