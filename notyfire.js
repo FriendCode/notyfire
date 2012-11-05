@@ -49,18 +49,30 @@ exports.listen = function(server) {
     });
 };
 
+// Validate args
+// channel must be first argument and must be != undefined
+function requiresChannel(func) {
+    function f() {
+        if(arguments[0] === undefined) {
+            return false;
+        }
+        return func.apply(this, arguments);
+    }
+    return f;
+}
+
 /* Subscribe a socket to a channel */
-exports.subscribe = function(channel,socket){
+exports.subscribe = requiresChannel(function(channel,socket) {
     socket.join(channel);
-};
+});
 
 /* Unsubscribe a socket to a channel*/
-exports.unsubscribe = function(channel,socket){
+exports.unsubscribe = requiresChannel(function(channel,socket) {
     socket.leave(channel);
-};
+});
 
 
 /* Transmit data in channel */
-exports.transmit = function(channel,message){
+exports.transmit = requiresChannel(function(channel,message){
     exports.io.sockets.json.in(channel).emit(channel,message);
-};
+});
