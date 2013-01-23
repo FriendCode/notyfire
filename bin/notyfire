@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+'use strict';
+
+// Node requires
+var fs = require('fs');
+var path = require('path');
+var util = require('util');
+
+// External requires
+var _ = require('underscore');
+var optimist = require('optimist');
+
+// Internal requires
+var notyfire = require('../index.js');
+
+// Constants
+var HELP_MSG = [
+    'usage: notyfire [options]',
+    '',
+    'Starts a notyfire server',
+    '',
+    'options:',
+    '   -p, --port PORT         Port to listen on',
+    '   -s, --server URL        Url of Redis Server to use',
+    '   -c, --channel STRING    Redis channel to subscribe to',
+    '   -h, --help              Display help'
+].join('\n');
+
+
+function Notyfire() {
+    // Nothing
+}
+
+Notyfire.prototype.help = function() {
+    util.puts(HELP_MSG);
+};
+
+Notyfire.prototype.main = function(port, server, channel) {
+    // Run master and worker
+    this.server = notyfire.createServer(port, server, channel);
+    this.server.run();
+};
+
+Notyfire.prototype.run = function(argv) {
+    var help = argv.h || argv.help;
+    var port = argv.p || argv.port;
+    var server = argv.s || argv.server;
+    var channel = argv.c || argv.channel;
+
+
+
+    var is_port = !(_.isUndefined(port));
+    var is_help = !(_.isUndefined(help)) || !(is_port);
+
+    if(is_port) {
+        this.main(port, server, channel);
+    } else if(is_help) {
+        return this.help();
+    } else {
+        return;
+    }
+};
+
+function main() {
+    var argv = optimist.argv;
+
+    var bin = new Notyfire();
+    bin.run(argv);
+}
+
+// Run main
+main();
