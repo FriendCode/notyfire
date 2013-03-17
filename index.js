@@ -1,10 +1,10 @@
-var Notyfire = require('./lib/server');
-var NotyfireClient = require('./lib/client');
+var NotyfireServer = require('./lib/server').NotyfireServer;
+var NotyfireClient = require('./lib/client').NotyfireClient;
 
 // Utility function
 function createServer(port, server, channel, url) {
     // Simply proxy arguments to constructor ...
-    return new Notyfire(port, server, channel, url);
+    return new NotyfireServer(port, server, channel, url);
 }
 
 function createClient(channel, port, server, redisOptions) {
@@ -16,4 +16,4 @@ exports.createServer = createServer;
 exports.createClient = createClient;
 
 exports.NotyfireClient = NotyfireClient;
-exports.Notyfire = Notyfire;
+exports.NotyfireServer = NotyfireServer;
