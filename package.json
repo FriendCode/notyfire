@@ -22,7 +22,8 @@
         "underscore": "1.4.2",
         "optimist": "0.3.x",
         "redis" : "0.7.x",
-        "socket.io": "0.9.x"
+        "socket.io": "0.9.x",
+        "readable-stream": "1.0.2"
     },
     "scripts" : {
         "start" : "node bin/notyfire"
