@@ -14,3 +14,6 @@ function createClient(channel, port, server, redisOptions) {
 // Exports
 exports.createServer = createServer;
 exports.createClient = createClient;
+
+exports.NotyfireClient = NotyfireClient;
+exports.Notyfire = Notyfire;
